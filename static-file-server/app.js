@@ -8,27 +8,12 @@ const port = 3000;
 // create an express app
 var app = express();
 
-app.use(morgan("short"));
+app.use(morgan("tiny"));
 
-app.use(function (req, res, next) {
-  var filePath = path.join(__dirname, "static", req.url);
+var staticPath = path.join(__dirname, "static");
+app.use(express.static(staticPath));
 
-  console.log(filePath);
-  fs.stat(filePath, function (err, fileInfo) {
-    if (err) {
-      next();
-      return;
-    }
-
-    if (fileInfo.isFile()) {
-      res.sendFile(filePath);
-    } else {
-      next();
-    }
-  });
-});
-
-app.use(function(req, res){
+app.use(function (req, res) {
   res.status(404);
   res.send("File not found");
 });
