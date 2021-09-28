@@ -1,7 +1,11 @@
 var express = require("express");
 var morgan = require("morgan");
+var apiRouter = require("./routes/api_router");
 
 const port = 3000;
+
+// routing to split into mini-apps
+
 
 // create an express app
 var app = express();
@@ -26,6 +30,8 @@ app.get("/search", (req, res) => {
   console.log(question);
   res.end();
 });
+
+app.use("/api", apiRouter);
 
 app.use(function (req, res) {
   res.send("Page Not Found!").status(404);
